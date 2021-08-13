@@ -3,12 +3,10 @@ package io.been;
 public class Leetcode121 {
     public int maxProfit(int[] prices) {
         int res = 0;
-        int cur = 0;
-        for (int i = 0; i < prices.length; i++) {
-            if (prices[i] < prices[cur]) {
-                cur = i;
-            }
-            res = Math.max(res, prices[i] - prices[cur]);
+        int minPrice = Integer.MAX_VALUE;
+        for (int price : prices) {
+            minPrice = Math.min(price, minPrice);
+            res = Math.max(res, price - minPrice);
         }
         return res;
     }
