@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Leetcode76 {
+public class Leetcode78 {
     private List<List<Integer>> res = new ArrayList<>();
 
     public List<List<Integer>> subsets(int[] nums) {
