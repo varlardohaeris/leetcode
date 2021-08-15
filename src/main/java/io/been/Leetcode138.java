@@ -4,6 +4,18 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Leetcode138 {
+    class Node {
+        public int val;
+        Node next;
+        Node random;
+
+        public Node(int val) {
+            this.val = val;
+            this.next = null;
+            this.random = null;
+        }
+    }
+
     public Node copyRandomList(Node head) {
         if (head == null) return null;
         Node dummy = new Node(0);
