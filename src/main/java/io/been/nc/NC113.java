@@ -1,8 +1,7 @@
-package io.been.leetcode;
+package io.been.nc;
 
-
-public class Leetcode468 {
-    public String validIPAddress(String IP) {
+public class NC113 {
+    public String solve(String IP) {
         String ip = IP.toLowerCase();
         String[] ip4 = ip.split("\\.", -1);
         if (ip4.length == 4) {
