@@ -9,10 +9,10 @@ public class Leetcode543 {
     }
 
     private int lp(TreeNode root) {
-        if (root == null) return -1;
-        int l = lp(root.left) + 1;
-        int r = lp(root.right) + 1;
+        if (root == null) return 0;
+        int l = lp(root.left);
+        int r = lp(root.right);
         ans = Math.max(ans, l + r);
-        return Math.max(l, r);
+        return Math.max(l, r) + 1;
     }
 }
