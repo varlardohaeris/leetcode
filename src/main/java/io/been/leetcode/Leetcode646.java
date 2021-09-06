@@ -1,18 +1,21 @@
 package io.been.leetcode;
 
+import java.util.Arrays;
+import java.util.Comparator;
+
 public class Leetcode646 {
     public int findLongestChain(int[][] pairs) {
-        int[] dp = new int[pairs.length];
-        for (int i = 0; i < pairs.length; i++) {
-            dp[i] = 1;
-            int max = 0;
+        Arrays.sort(pairs, Comparator.comparingInt(a -> a[0]));
+        int n = pairs.length;
+        int[] dp = new int[n];
+        Arrays.fill(dp, 1);
+        for (int i = 1; i < n; i++) {
             for (int j = 0; j < i; j++) {
                 if (pairs[j][1] < pairs[i][0]) {
-                    max = Math.max(max, dp[j] + 1);
+                    dp[i] = Math.max(dp[i], dp[j] + 1);
                 }
             }
-            dp[i] = Math.max(dp[i], max);
         }
-        return dp[pairs.length - 1];
+        return Arrays.stream(dp).max().orElse(0);
     }
 }
