@@ -1,50 +1,44 @@
 package io.been.leetcode;
 
-
 import java.util.HashMap;
+import java.util.Map;
 
 public class Leetcode76 {
-    public String minWindow(String s, String t) {
+    public static String minWindow(String s, String t) {
+        Map<Character, Integer> window = new HashMap<>();
+        Map<Character, Integer> need = new HashMap<>();
+        for (char c : t.toCharArray()) {
+            need.put(c, need.getOrDefault(c, 0) + 1);
+        }
+        int left = 0;
+        int right = 0;
+        int valid = 0;
         int start = 0;
-        int end = 0;
-        char[] sum = s.toCharArray();
-        char[] sub = t.toCharArray();
-        HashMap<Character, Integer> temp = new HashMap<>();
-        String result = s + " ";
-        int count = sub.length;
-        for (int i = 0; i < sub.length; i++) {
-            if (temp.containsKey(sub[i])) {
-                temp.put(sub[i], temp.get(sub[i]) + 1);
-            } else {
-                temp.put(sub[i], 1);
-            }
-        }
-
-        while (end < s.length()) {
-            if (temp.containsKey(sum[end])) {
-                int flag = temp.get(sum[end]);
-                if (flag > 0) {
-                    count--;
+        int len = Integer.MAX_VALUE;
+        while (right < s.length()) {
+            char c = s.charAt(right);
+            right++;
+            if (need.getOrDefault(c, 0) > 0) {
+                window.put(c, window.getOrDefault(c, 0) + 1);
+                if (window.get(c).equals(need.get(c))) {
+                    valid++;
                 }
-                temp.put(sum[end], --flag);
             }
-            end++;
-            if (count == 0) {
-                while (start < end && count == 0) {
-                    if (temp.containsKey(sum[start])) {
-                        int flag = temp.get(sum[start]);
-                        if (flag >= 0) {
-                            count++;
-                            result = result.length() > end - start ?
-                                    s.substring(start, end) : result;
-
-                        }
-                        temp.put(sum[start], flag + 1);
+            while (valid == need.size()) {
+                if (right - left < len) {
+                    start = left;
+                    len = right - left;
+                }
+                char d = s.charAt(left);
+                left++;
+                if (need.getOrDefault(d, 0) > 0) {
+                    if (window.getOrDefault(d, 0).equals(need.get(d))) {
+                        valid--;
                     }
-                    start++;
+                    window.put(d, window.get(d) - 1);
                 }
             }
         }
-        return result.length() == s.length() + 1 ? "" : result;
+        return len == Integer.MAX_VALUE ? "" : s.substring(start, start + len);
     }
 }
