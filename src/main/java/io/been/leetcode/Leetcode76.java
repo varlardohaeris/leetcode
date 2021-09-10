@@ -1,14 +1,16 @@
 package io.been.leetcode;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Leetcode76 {
     public static String minWindow(String s, String t) {
-        Map<Character, Integer> window = new HashMap<>();
-        Map<Character, Integer> need = new HashMap<>();
+        int[] window = new int[128];
+        int[] need = new int[128];
+        Set<Character> set = new HashSet<>();
         for (char c : t.toCharArray()) {
-            need.put(c, need.getOrDefault(c, 0) + 1);
+            need[c - 'A']++;
+            set.add(c);
         }
         int left = 0;
         int right = 0;
@@ -18,24 +20,24 @@ public class Leetcode76 {
         while (right < s.length()) {
             char c = s.charAt(right);
             right++;
-            if (need.getOrDefault(c, 0) > 0) {
-                window.put(c, window.getOrDefault(c, 0) + 1);
-                if (window.get(c).equals(need.get(c))) {
+            if (need[c - 'A'] > 0) {
+                window[c - 'A']++;
+                if (window[c - 'A'] == need[c - 'A']) {
                     valid++;
                 }
             }
-            while (valid == need.size()) {
+            while (valid == set.size()) {
                 if (right - left < len) {
                     start = left;
                     len = right - left;
                 }
                 char d = s.charAt(left);
                 left++;
-                if (need.getOrDefault(d, 0) > 0) {
-                    if (window.getOrDefault(d, 0).equals(need.get(d))) {
+                if (need[d - 'A'] > 0) {
+                    if (window[d - 'A'] == need[d - 'A']) {
                         valid--;
                     }
-                    window.put(d, window.get(d) - 1);
+                    window[d - 'A']--;
                 }
             }
         }
