@@ -1,29 +1,41 @@
 package io.been.leetcode;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class Leetcode567 {
     public boolean checkInclusion(String s1, String s2) {
-        int count = s1.length();
-        int[] s1Freq = new int[26];
-        for (int i = 0; i < s1.length(); i++) {
-            s1Freq[s1.charAt(i) - 'a']++;
+        Set<Character> set = new HashSet<>();
+        int[] need = new int[26];
+        int[] window = new int[26];
+        for (char c : s1.toCharArray()) {
+            need[c - 'a']++;
+            set.add(c);
         }
-
-        int[] s2Freq = new int[26];
-        for (int i = 0; i < s2.length(); i++) {
-            char c = s2.charAt(i);
-            s2Freq[c - 'a']++;
-            if (s2Freq[c - 'a'] <= s1Freq[c - 'a']) {
-                count--;
-            }
-            if (i >= s1.length()) {
-                char h = s2.charAt(i - s1.length());
-                s2Freq[h - 'a']--;
-                if (s2Freq[h - 'a'] < s1Freq[h - 'a']) {
-                    count++;
+        int left = 0;
+        int right = 0;
+        int valid = 0;
+        while (right < s2.length()) {
+            char c = s2.charAt(right);
+            right++;
+            if (need[c - 'a'] > 0) {
+                window[c - 'a']++;
+                if (window[c - 'a'] == need[c - 'a']) {
+                    valid++;
                 }
             }
-            if (count == 0) {
-                return true;
+            while (right - left >= s1.length()) {
+                if (valid == set.size()) {
+                    return true;
+                }
+                char d = s2.charAt(left);
+                left++;
+                if (need[d - 'a'] > 0) {
+                    if (window[d - 'a'] == need[d - 'a']) {
+                        valid--;
+                    }
+                    window[d - 'a']--;
+                }
             }
         }
         return false;
