@@ -1,18 +1,22 @@
 package io.been.leetcode;
 
-import java.util.Arrays;
-
 public class Leetcode3 {
-    public int lengthOfLongestSubstring(String s) {
-        int n = s.length();
-        int[] ids = new int[128];
-        Arrays.fill(ids, -1);
-        int ans = 0;
-        for (int i = 0, j = 0; j < n; j++) {
-            i = Math.max(i, ids[s.charAt(j)] + 1);
-            ans = Math.max(ans, j - i + 1);
-            ids[s.charAt(j)] = j;
+    public static int lengthOfLongestSubstring(String s) {
+        int[] window = new int[128];
+        int left = 0;
+        int right = 0;
+        int res = 0;
+        while (right < s.length()) {
+            char c = s.charAt(right);
+            right++;
+            window[c]++;
+            while (window[c] > 1) {
+                char d = s.charAt(left);
+                left++;
+                window[d]--;
+            }
+            res = Math.max(res, right - left);
         }
-        return ans;
+        return res;
     }
 }
