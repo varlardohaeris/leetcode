@@ -2,12 +2,11 @@ package io.been.leetcode;
 
 public class Leetcode55 {
     public boolean canJump(int[] nums) {
-        int n = nums.length;
-        int far = nums[0];
-        for (int i = 0; i < n; i++) {
-            if (i > far) break;
-            far = Math.max(far, i + nums[i]);
+        int[] dp = new int[nums.length];
+        for (int i = 1; i < nums.length; i++) {
+            dp[i] = Math.max(dp[i - 1], nums[i - 1]) - 1;
+            if (dp[i] < 0) return false;
         }
-        return far >= n - 1;
+        return true;
     }
 }
