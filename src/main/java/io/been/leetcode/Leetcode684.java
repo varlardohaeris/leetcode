@@ -5,13 +5,11 @@ import java.util.Arrays;
 public class Leetcode684 {
     private class UF {
         public int n;
-        public int comp;
         public int[] parent;
         public int[] rank;
 
         public UF(int n) {
             this.n = n;
-            this.comp = n;
             parent = new int[n + 1];
             for (int i = 1; i <= n; i++) {
                 parent[i] = i;
@@ -21,7 +19,6 @@ public class Leetcode684 {
         }
 
         public void union(int x, int y) {
-            --comp;
             x = find(x);
             y = find(y);
             if (rank[x] == rank[y]) {
