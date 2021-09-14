@@ -1,7 +1,7 @@
 package io.been.leetcode;
 
 public class Leetcode227 {
-    public  static  int calculate(String s) {
+    public static int calculate(String s) {
         s = s.trim().replaceAll(" ", "");
         int len = s.length();
         char[] cs = s.toCharArray();
