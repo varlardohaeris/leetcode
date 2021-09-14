@@ -1,19 +1,16 @@
 package io.been.leetcode;
 
+/**
+ * https://www.cnblogs.com/grandyang/p/6201215.html
+ */
+
 public class Leetcode461 {
     public int hammingDistance(int x, int y) {
         int z = x ^ y;
-        return bitCount(z);
-    }
-
-    private int bitCount(int i) {
-        int count = 0;
-        while (i > 0) {
-            if (i % 2 == 1) {
-                count++;
-            }
-            i >>= 1;
+        int res = 0;
+        for (int i = 0; i < 32; i++) {
+            res += (z >> i) & 1;
         }
-        return count;
+        return res;
     }
 }
