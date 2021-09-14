@@ -1,34 +1,19 @@
 package io.been.leetcode;
 
+/**
+ * https://www.cnblogs.com/grandyang/p/4501934.html
+ */
+
 public class Leetcode209 {
     public int minSubArrayLen(int target, int[] nums) {
+        int res = Integer.MAX_VALUE;
         int left = 0;
         int sum = 0;
-        int right = 0;
-        int res = Integer.MAX_VALUE;
-        while (true) {
-            if (right == nums.length && left == nums.length) {
-                break;
-            }
-            if (sum == target) {
-                res = Math.min(right - left, res);
-                if (right < nums.length) {
-                    sum += nums[right];
-                    right++;
-                } else {
-                    sum -= nums[left];
-                    left++;
-                }
-            } else if (sum < target) {
-                if (right == nums.length) {
-                    break;
-                }
-                sum += nums[right];
-                right++;
-            } else {
-                res = Math.min(right - left, res);
-                sum -= nums[left];
-                left++;
+        for (int i = 0; i < nums.length; i++) {
+            sum += nums[i];
+            while (left <= i && sum >= target) {
+                res = Math.min(res, i - left + 1);
+                sum -= nums[left++];
             }
         }
         return res == Integer.MAX_VALUE ? 0 : res;
