@@ -2,7 +2,7 @@ package io.been.leetcode;
 
 import java.util.HashMap;
 import java.util.Map;
-
+// https://www.bilibili.com/video/BV1WE411i76E?from=search&seid=2743421952263185254&spm_id_from=333.337.0.0
 public class Leetcode560 {
     public int subarraySum(int[] nums, int k) {
         Map<Integer, Integer> map = new HashMap<>();
@@ -11,9 +11,9 @@ public class Leetcode560 {
         int sum = 0;
         for (int num : nums) {
             sum += num;
-            int target = sum - k;
-            int t = map.get(target) == null ? 0 : map.get(target);
-            ans += t;
+            if (map.containsKey(sum - k)) {
+                ans += map.get(sum - k);
+            }
             map.put(sum, map.getOrDefault(sum, 0) + 1);
         }
         return ans;
