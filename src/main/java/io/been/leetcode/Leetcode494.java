@@ -1,25 +1,27 @@
 package io.been.leetcode;
 
-import java.util.Arrays;
+
+import java.util.HashMap;
+import java.util.Map;
+
+// https://www.cnblogs.com/grandyang/p/6395843.html
 
 public class Leetcode494 {
     public int findTargetSumWays(int[] nums, int target) {
-        int sum = Arrays.stream(nums).sum();
-        if (sum < target || target < -sum) return 0;
         int n = nums.length;
-        int[][] dp = new int[n][2 * sum + 1];
-        dp[0][nums[0] + sum]++;
-        dp[0][-nums[0] + sum]++;
-        for (int i = 1; i < n; i++) {
-            for (int j = -sum; j <= sum; j++) {
-                if (j + sum - nums[i] >= 0) {
-                    dp[i][j + sum] += dp[i - 1][j - nums[i] + sum];
-                }
-                if (j + sum + nums[i] <= 2 *sum) {
-                    dp[i][j + sum] += dp[i - 1][j + nums[i] + sum];
-                }
+        Map<Integer, Integer>[] dp = new HashMap[n + 1];
+        for (int i = 0; i <= n; i++) {
+            dp[i] = new HashMap<>();
+        }
+        dp[0].put(0, 1);
+        for (int i = 0; i < n; i++) {
+            for (Map.Entry<Integer, Integer> entry : dp[i].entrySet()) {
+                int sum = entry.getKey();
+                int cnt = entry.getValue();
+                dp[i + 1].put(sum + nums[i], dp[i + 1].getOrDefault(sum + nums[i], 0) + cnt);
+                dp[i + 1].put(sum - nums[i], dp[i + 1].getOrDefault(sum - nums[i], 0) + cnt);
             }
         }
-        return dp[n - 1][target + sum];
+        return dp[n].getOrDefault(target, 0);
     }
 }
