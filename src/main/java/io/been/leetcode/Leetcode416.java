@@ -2,18 +2,20 @@ package io.been.leetcode;
 
 import java.util.Arrays;
 
+// https://www.cnblogs.com/grandyang/p/5951422.html
+
 public class Leetcode416 {
     public boolean canPartition(int[] nums) {
         int sum = Arrays.stream(nums).sum();
         if (sum % 2 != 0) return false;
-        int[] dp = new int[sum + 1];
-        dp[0] = 1;
+        int target = sum >> 1;
+        boolean[] dp = new boolean[target + 1];
+        dp[0] = true;
         for (int num : nums) {
-            for (int i = sum; i >= 0; i--) {
-                if (dp[i] > 0) dp[i + num] = 1;
+            for (int i = target; i >= num; i--) {
+                dp[i] = dp[i] || dp[i - num];
             }
-            if (dp[sum / 2] > 0) return true;
         }
-        return false;
+        return dp[target];
     }
 }
