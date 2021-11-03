@@ -2,17 +2,16 @@ package io.been.leetcode;
 
 public class Leetcode45 {
     public int jump(int[] nums) {
-        int ans = 0;
         int n = nums.length;
-        int i = 0;
-        int cur = 0;
-        while (cur < n - 1) {
-            ans++;
-            int pre = cur;
-            for (; i <= pre; i++) {
-                cur = Math.max(cur, i + nums[i]);
+        int end = 0;
+        int farthest = 0;
+        int ans = 0;
+        for (int i = 0; i < n - 1; i++) {
+            farthest = Math.max(nums[i] + i, farthest);
+            if (end == i) {
+                ans++;
+                end = farthest;
             }
-            if (pre == cur) return -1;
         }
         return ans;
     }
