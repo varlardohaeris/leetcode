@@ -12,7 +12,7 @@ class Solution {
             if (heap.count(r)) {
                 return {heap[r], i};
             } else {
-                heap[nums[i], i];
+              heap[nums[i]] = i;
             }
         }
         return {};
